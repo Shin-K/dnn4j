@@ -13,7 +13,7 @@ public class SigmoidTest {
     public NdArray grad;
 
     @Before
-    public void initalize() {
+    public void initialize() {
         data = NumJ.create(new double[]{0.5, 0.5,
                         0.5, 0.5},
                 2, 2);
