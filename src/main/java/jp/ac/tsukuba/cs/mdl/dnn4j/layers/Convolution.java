@@ -86,7 +86,7 @@ public class Convolution implements Layer {
         col = Utils.im2col(input, filterHeight, filterWidth, stride, padding);
 
         // ここから変更 重み行列を掛ける
-        NdArray out = NumJ.zeros(0);
+        NdArray out = this.weight.dot(col.transpose()).add(this.bias.transpose()).transpose();
         // ここまで変更
 
         out = out.reshape(inputShape[0], outHeight, outWidth, filterNum).transpose(0, 3, 1, 2);
@@ -101,7 +101,9 @@ public class Convolution implements Layer {
 
         // ここから実装 重みトバイアス、入力のの勾配を計算し、weightGrad、biasGrad、dcolに出力する
         // このの操作はFCとほぼ同じ
-        NdArray dcol = NumJ.zeros(0);
+        this.weightGrad = this.input.transpose().dot(dout);
+        this.biasGrad = dout;
+        NdArray dcol = dout.dot(this.weight.transpose());
         // ここまで実装
 
         return Utils.col2im(dcol, inputShape, filterHeight, filterWidth, stride, padding);

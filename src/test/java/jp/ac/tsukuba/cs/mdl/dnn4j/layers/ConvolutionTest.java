@@ -17,7 +17,7 @@ public class ConvolutionTest {
                 NumJ.arange(1, 9), 9, 3, 3, 1, 0);
     }
 
-//    @Test
+    @Test
     public void forwardTest() {
         NdArray convForward = conv.forward(NumJ.arange(4, 1, 4, 4));
         Assert.assertTrue(
