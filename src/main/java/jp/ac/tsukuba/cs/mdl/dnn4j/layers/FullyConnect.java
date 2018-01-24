@@ -1,6 +1,7 @@
 package jp.ac.tsukuba.cs.mdl.dnn4j.layers;
 
 import jp.ac.tsukuba.cs.mdl.numj.core.NdArray;
+import jp.ac.tsukuba.cs.mdl.numj.core.NumJ;
 
 public class FullyConnect implements Layer {
 
@@ -45,11 +46,14 @@ public class FullyConnect implements Layer {
 
     @Override
     public NdArray forward(NdArray input) {
-        return null;
+        this.input = input;
+        return input.dot(this.weight).add(this.bias);
     }
 
     @Override
     public NdArray backward(NdArray dout) {
-       return null;
+        this.weightGrad = this.input.transpose().dot(dout);
+        this.biasGrad = dout;
+        return dout.dot(this.weight.transpose());
     }
 }

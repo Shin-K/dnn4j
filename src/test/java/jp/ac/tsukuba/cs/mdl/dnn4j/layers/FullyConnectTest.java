@@ -23,7 +23,7 @@ public class FullyConnectTest {
         fullyConnect = new FullyConnect(weight, bias);
     }
 
-//    @Test
+    @Test
     public void forward() throws Exception {
         NdArray input = NumJ.create(new double[]{1., 2., 3.}, 1, 3);
         NdArray result = NumJ.create(new double[]{-29.5, -35.4, -41.3}, 1, 3);
@@ -31,7 +31,7 @@ public class FullyConnectTest {
         assertArrayEquals(new int[]{1, 3}, fullyConnect.forward(input).shape());
     }
 
-//    @Test
+    @Test
     public void backward() throws Exception {
         forward();
         NdArray dout = NumJ.ones(1, 3);

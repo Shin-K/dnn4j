@@ -4,7 +4,7 @@ import jp.ac.tsukuba.cs.mdl.numj.core.NdArray;
 import jp.ac.tsukuba.cs.mdl.numj.core.NumJ;
 
 public class Sigmoid implements Layer {
-    NdArray input;
+    private NdArray input;
 
     @Override
     public NdArray forward(NdArray input) {
