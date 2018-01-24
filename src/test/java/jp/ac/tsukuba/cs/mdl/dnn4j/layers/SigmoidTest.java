@@ -23,14 +23,14 @@ public class SigmoidTest {
                 2, 2);
     }
 
-//    @Test
+    @Test
     public void forward() throws Exception {
         Layer layer = new Sigmoid();
         assertTrue(data.sub(layer.forward(NumJ.zeros(2, 2))).elementwise(Math::abs).sum() < 1e-10);
         assertArrayEquals(new int[]{2, 2}, layer.forward(NumJ.zeros(2, 2)).shape());
     }
 
-//    @Test
+    @Test
     public void backward() throws Exception {
         Layer layer = new Sigmoid();
         layer.forward(NumJ.zeros(2, 2));
