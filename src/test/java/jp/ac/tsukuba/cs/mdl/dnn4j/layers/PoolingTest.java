@@ -14,7 +14,7 @@ public class PoolingTest {
         pool = new Pooling(3, 3, 1, 0);
     }
 
-//    @Test
+    @Test
     public void forwardTest() {
         Assert.assertEquals(NumJ.create(new double[]{
                 10., 11.,
