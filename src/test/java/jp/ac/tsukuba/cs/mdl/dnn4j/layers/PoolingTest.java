@@ -76,7 +76,7 @@ public class PoolingTest {
 
     }
 
-//    @Test
+    @Test
     public void backward(){
         pool.forward(NumJ.arange(2, 9, 4, 4));
         Assert.assertEquals(

@@ -37,9 +37,12 @@ public class Pooling implements Layer {
 
         NdArray col = Utils.im2col(input, poolHeight, poolWidth, stride, padding);
 
+        //画像ベクトルを（ミニバッチサイズ）
+        col = col.reshape(col.size() / poolHeight / poolWidth, poolHeight * poolWidth);
+
         // ここから実装 colの最大値をoutに出力する．最大値をとったフィルターの場所をargmaxに出力する．
-        NdArray out = col.max(input.shape());
-        this.argmax = out.argmax(0);
+        NdArray out = col.max(1);
+        this.argmax = col.argmax(1);
         // ここまで実装
 
         out = out.reshape(inputShape[0], outHeight, outWeight, inputShape[1]).transpose(0, 3, 1, 2);
@@ -53,10 +56,12 @@ public class Pooling implements Layer {
 
         int poolSize = poolHeight * poolWidth;
 
-        NdArray dmax = NumJ.zeros(inputShape[0] * inputShape[1], poolSize);
+        NdArray dmax = NumJ.zeros(dout.size(), poolSize);
 
         // ここから実装 最大値をとった部分(argmax)にdoutを代入する
-        argmax = dout;
+        for (int i = 0; i < argmax.size(); i++){
+            dmax.put(new int[]{i,(int)argmax.get(i)},(int)dout.get(i));
+        }
         // ここまで実装
 
         dmax = dmax.reshape(Ints.concat(dout.shape(), new int[]{poolSize}));
