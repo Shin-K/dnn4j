@@ -139,7 +139,7 @@ public class ConvolutionTest {
 
     }
 
-//    @Test
+    @Test
     public void backwardTest() {
 
 

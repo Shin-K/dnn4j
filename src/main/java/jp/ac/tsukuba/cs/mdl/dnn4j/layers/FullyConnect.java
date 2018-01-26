@@ -53,7 +53,8 @@ public class FullyConnect implements Layer {
     @Override
     public NdArray backward(NdArray dout) {
         this.weightGrad = this.input.transpose().dot(dout);
-        this.biasGrad = dout;
+        //this.input.shape()[0] -> ミニバッチサイズ
+        this.biasGrad = dout.transpose().dot(NumJ.ones(this.input.shape()[0])).reshape(1, bias.size());
         return dout.dot(this.weight.transpose());
     }
 }
