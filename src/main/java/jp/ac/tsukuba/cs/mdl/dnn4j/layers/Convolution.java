@@ -102,8 +102,11 @@ public class Convolution implements Layer {
         // ここから実装 重みとバイアス、入力のの勾配を計算し、weightGrad、biasGrad、dcolに出力する
         // このの操作はFCとほぼ同じ
         this.weightGrad = dout.transpose().dot(col);
-        //dout.transpose().dot(NumJ.ones(this.input.shape()[0])).reshape(1, bias.size())
-        this.biasGrad = NumJ.ones(new int[]{dout.shape()[0]}).transpose().dot(dout).reshape(1,bias.size());
+        //this.input.shape()[0] -> ミニバッチサイズ
+        this.biasGrad = NumJ.ones(new int[]{dout.shape()[0]})
+                            .transpose()
+                            .dot(dout)
+                            .reshape(1,bias.size());
         NdArray dcol = dout.dot(this.weight);
         // ここまで実装
 

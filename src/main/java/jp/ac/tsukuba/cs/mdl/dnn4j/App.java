@@ -77,12 +77,52 @@ public class App {
                 true // verbose
         );
         trainer.train();
+
+        //損失関数の値を
+
     }
 
     private static List<Map<String, Integer>> constructNetArch() {
         List<Map<String, Integer>> netArgList = new ArrayList<>();
 
         netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
+                        .put(NetArgType.UNIT_NUM, 200)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.SIGMOID)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
+                        .put(NetArgType.UNIT_NUM, 100)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.SIGMOID)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
+                        .put(NetArgType.UNIT_NUM, 10)
+                        .build()
+        );
+
+        //TODO SoftmaxとCrossEntropyの実装？
+
+        //課題3-3 図1のネットワークを設計し、精度を比較
+
+/*        netArgList.add(
                 new MapBuilder<String, Integer>()
                         .put(NetArgType.LAYER_TYPE, LayerType.CONVOLUTION)
                         .put(NetArgType.FILTER_NUM, 64)
@@ -111,28 +151,7 @@ public class App {
                 new MapBuilder<String, Integer>()
                         .put(NetArgType.LAYER_TYPE, LayerType.FLATTEN)
                         .build()
-        );
-
-        netArgList.add(
-                new MapBuilder<String, Integer>()
-                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
-                        .put(NetArgType.UNIT_NUM, 512)
-                        .build()
-        );
-
-        netArgList.add(
-                new MapBuilder<String, Integer>()
-                        .put(NetArgType.LAYER_TYPE, LayerType.SIGMOID)
-                        .build()
-        );
-
-
-        netArgList.add(
-                new MapBuilder<String, Integer>()
-                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
-                        .put(NetArgType.UNIT_NUM, 10)
-                        .build()
-        );
+        );*/
 
         return netArgList;
     }
