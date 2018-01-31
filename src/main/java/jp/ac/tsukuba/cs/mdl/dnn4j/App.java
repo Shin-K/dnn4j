@@ -9,6 +9,10 @@ import jp.ac.tsukuba.cs.mdl.dnn4j.networks.Net;
 import jp.ac.tsukuba.cs.mdl.dnn4j.networks.NeuralNet;
 import jp.ac.tsukuba.cs.mdl.numj.core.NdArray;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +73,7 @@ public class App {
                 tTrain, // target train data
                 xTest, // input test data
                 tTest, // target test data
-                100, // epoch num
+                10, // epoch num
                 100, // mini batch size
                 OptimizerType.ADAM, // optimizer
                 optimizerParams, // optimizer parameter
@@ -78,12 +82,40 @@ public class App {
         );
         trainer.train();
 
-        //損失関数の値を
+        //ここからcsvファイルへ書き出す記述
+        String trainLossFile = "trainLoss.csv";
+        String accuracyFile = "accuracy.csv";
+
+        try {
+            PrintWriter trainLoss = new PrintWriter(new BufferedWriter(new FileWriter(trainLossFile)));
+            PrintWriter accuracy = new PrintWriter(new BufferedWriter(new FileWriter(accuracyFile)));
+
+            for (int i = 0;i < trainer.getTrainLossList().size();i++){
+                trainLoss.println(i+1 + "," + trainer.getTrainLossList().get(i));
+            }
+
+            for (int i = 0;i < trainer.getTrainAccList().size();i++){
+                accuracy.println(i+1 + "," + trainer.getTrainAccList().get(i) + "," + trainer.getTestAccList().get(i));
+            }
+
+            trainLoss.close();
+            accuracy.close();
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
 
     }
 
     private static List<Map<String, Integer>> constructNetArch() {
         List<Map<String, Integer>> netArgList = new ArrayList<>();
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FLATTEN)
+                        .build()
+        );
 
         netArgList.add(
                 new MapBuilder<String, Integer>()
@@ -147,11 +179,7 @@ public class App {
                         .build()
         );
 
-        netArgList.add(
-                new MapBuilder<String, Integer>()
-                        .put(NetArgType.LAYER_TYPE, LayerType.FLATTEN)
-                        .build()
-        );*/
+        */
 
         return netArgList;
     }
