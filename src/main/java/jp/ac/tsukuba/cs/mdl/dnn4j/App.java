@@ -75,7 +75,7 @@ public class App {
                 tTest, // target test data
                 10, // epoch num
                 100, // mini batch size
-                OptimizerType.ADAM, // optimizer
+                OptimizerType.MOMENTUM, // optimizer
                 optimizerParams, // optimizer parameter
                 100, // evaluate batch size
                 true // verbose
@@ -83,8 +83,8 @@ public class App {
         trainer.train();
 
         //ここからcsvファイルへ書き出す記述
-        String trainLossFile = "trainLoss.csv";
-        String accuracyFile = "accuracy.csv";
+        String trainLossFile = "trainLossCNNMomentum.csv";
+        String accuracyFile = "accuracyCNNMomentum.csv";
 
         try {
             PrintWriter trainLoss = new PrintWriter(new BufferedWriter(new FileWriter(trainLossFile)));
@@ -105,12 +105,13 @@ public class App {
             e.printStackTrace();
         }
 
-
     }
 
     private static List<Map<String, Integer>> constructNetArch() {
         List<Map<String, Integer>> netArgList = new ArrayList<>();
 
+
+/*        //課題1と2
         netArgList.add(
                 new MapBuilder<String, Integer>()
                         .put(NetArgType.LAYER_TYPE, LayerType.FLATTEN)
@@ -126,7 +127,7 @@ public class App {
 
         netArgList.add(
                 new MapBuilder<String, Integer>()
-                        .put(NetArgType.LAYER_TYPE, LayerType.SIGMOID)
+                        .put(NetArgType.LAYER_TYPE, LayerType.RELU) //1はシグモイド、2はReLU
                         .build()
         );
 
@@ -139,7 +140,7 @@ public class App {
 
         netArgList.add(
                 new MapBuilder<String, Integer>()
-                        .put(NetArgType.LAYER_TYPE, LayerType.SIGMOID)
+                        .put(NetArgType.LAYER_TYPE, LayerType.RELU) //1はシグモイド、2はReLU
                         .build()
         );
 
@@ -148,16 +149,14 @@ public class App {
                         .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
                         .put(NetArgType.UNIT_NUM, 10)
                         .build()
-        );
+        );*/
 
-        //TODO SoftmaxとCrossEntropyの実装？
 
-        //課題3-3 図1のネットワークを設計し、精度を比較
-
-/*        netArgList.add(
+        //課題3 図1のネットワークを設計し、精度を比較
+        netArgList.add(
                 new MapBuilder<String, Integer>()
                         .put(NetArgType.LAYER_TYPE, LayerType.CONVOLUTION)
-                        .put(NetArgType.FILTER_NUM, 64)
+                        .put(NetArgType.FILTER_NUM, 4)
                         .put(NetArgType.FILTER_SIZE, 3)
                         .put(NetArgType.STRIDE, 1)
                         .put(NetArgType.PADDING, 1)
@@ -179,7 +178,56 @@ public class App {
                         .build()
         );
 
-        */
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.CONVOLUTION)
+                        .put(NetArgType.FILTER_NUM, 4)
+                        .put(NetArgType.FILTER_SIZE, 3)
+                        .put(NetArgType.STRIDE, 1)
+                        .put(NetArgType.PADDING, 1)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.RELU)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.POOLING)
+                        .put(NetArgType.FILTER_SIZE, 2)
+                        .put(NetArgType.STRIDE, 2)
+                        .put(NetArgType.PADDING, 0)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FLATTEN)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
+                        .put(NetArgType.UNIT_NUM, 50)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.RELU)
+                        .build()
+        );
+
+        netArgList.add(
+                new MapBuilder<String, Integer>()
+                        .put(NetArgType.LAYER_TYPE, LayerType.FULLY_CONNECT)
+                        .put(NetArgType.UNIT_NUM, 10)
+                        .build()
+        );
 
         return netArgList;
     }
