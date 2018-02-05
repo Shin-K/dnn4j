@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class FullyConnectTest {
@@ -36,13 +37,23 @@ public class FullyConnectTest {
         forward();
         NdArray dout = NumJ.ones(1, 3);
         NdArray dx = NumJ.create(new double[]{-6., -15., -24}, 1, 3);
+        assertEquals(dx.toString(), fullyConnect.backward(dout).toString());
+        assertArrayEquals(new int[]{1, 3}, fullyConnect.backward(dout).shape());
+        NdArray dW = NumJ.create(new double[]{1., 1., 1., 2., 2., 2., 3., 3., 3.,}, 3, 3);
+        assertEquals(dW.toString(), fullyConnect.getWeightGrad().toString());
+        assertArrayEquals(dW.shape(), fullyConnect.getWeightGrad().shape());
+        assertEquals(dout.toString(), fullyConnect.getBiasGrad().toString());
+
+        /*forward();
+        NdArray dout = NumJ.ones(1, 3);
+        NdArray dx = NumJ.create(new double[]{-6., -15., -24}, 1, 3);
         assertTrue(dx.sub(fullyConnect.backward(dout)).elementwise(Math::abs).sum() < 1e-10);
         assertArrayEquals(new int[]{1, 3}, fullyConnect.backward(dout).shape());
         NdArray dW = NumJ.create(new double[]{1., 1., 1., 2., 2., 2., 3., 3., 3.,}, 3, 3);
         assertTrue(fullyConnect.getWeightGrad().sub(dW).elementwise(Math::abs).sum() < 1e-10);
         assertArrayEquals(dW.shape(), fullyConnect.getWeightGrad().shape());
         assertTrue(fullyConnect.getBiasGrad().sub(dout).elementwise(Math::abs).sum() < 1e-10);
-        assertArrayEquals(new int[]{1, 3}, fullyConnect.getBiasGrad().shape());
+        assertArrayEquals(new int[]{1, 3}, fullyConnect.getBiasGrad().shape());*/
     }
 
 }

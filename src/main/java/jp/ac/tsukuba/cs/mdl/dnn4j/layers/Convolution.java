@@ -86,7 +86,7 @@ public class Convolution implements Layer {
         col = Utils.im2col(input, filterHeight, filterWidth, stride, padding);
 
         // ここから変更 重み行列を掛ける
-        NdArray out = this.weight.dot(col.transpose()).add(this.bias.transpose()).transpose();
+        NdArray out = col.dot(this.weight.transpose()).add(this.bias);
         // ここまで変更
 
         out = out.reshape(inputShape[0], outHeight, outWidth, filterNum).transpose(0, 3, 1, 2);

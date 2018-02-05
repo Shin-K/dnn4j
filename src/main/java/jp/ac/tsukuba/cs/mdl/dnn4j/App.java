@@ -75,7 +75,7 @@ public class App {
                 tTest, // target test data
                 10, // epoch num
                 100, // mini batch size
-                OptimizerType.MOMENTUM, // optimizer
+                OptimizerType.ADAM, // optimizer
                 optimizerParams, // optimizer parameter
                 100, // evaluate batch size
                 true // verbose
@@ -83,8 +83,8 @@ public class App {
         trainer.train();
 
         //ここからcsvファイルへ書き出す記述
-        String trainLossFile = "trainLossCNNMomentum.csv";
-        String accuracyFile = "accuracyCNNMomentum.csv";
+        String trainLossFile = "trainLossCNNRMS_PROP.csv";
+        String accuracyFile = "accuracyCNNRMS_PROP.csv";
 
         try {
             PrintWriter trainLoss = new PrintWriter(new BufferedWriter(new FileWriter(trainLossFile)));

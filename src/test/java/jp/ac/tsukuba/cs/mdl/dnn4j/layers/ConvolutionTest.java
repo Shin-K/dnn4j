@@ -141,9 +141,66 @@ public class ConvolutionTest {
 
     @Test
     public void backwardTest() {
+        conv.forward(NumJ.arange(4,1,4,4));
+        NdArray convOut = conv.backward(NumJ.arange(4,9,2,2));
+        Assert.assertArrayEquals(new int[]{4, 1, 4, 4}, convOut.shape());
+
+        Assert.assertEquals(NumJ.create(new double[]{
+                35088., 35976., 36864.,
+                38640., 39528., 40416.,
+                42192., 43080., 43968.,
 
 
-        conv.forward(NumJ.arange(4, 1, 4, 4));
+                36784., 37736., 38688.,
+                40592., 41544., 42496.,
+                44400., 45352., 46304.,
+
+
+                38480., 39496., 40512.,
+                42544., 43560., 44576.,
+                46608., 47624., 48640.,
+
+
+                40176., 41256., 42336.,
+                44496., 45576., 46656.,
+                48816., 49896., 50976.,
+
+
+                41872., 43016., 44160.,
+                46448., 47592., 48736.,
+                51024., 52168., 53312.,
+
+
+                43568., 44776., 45984.,
+                48400., 49608., 50816.,
+                53232., 54440., 55648.,
+
+
+                45264., 46536., 47808.,
+                50352., 51624., 52896.,
+                55440., 56712., 57984.,
+
+
+                46960., 48296., 49632.,
+                52304., 53640., 54976.,
+                57648., 58984., 60320.,
+
+
+                48656., 50056., 51456.,
+                54256., 55656., 57056.,
+                59856., 61256., 62656.
+        }, 9, 1 * 3 * 3).toString(), conv.getWeightGrad().toString());
+
+        Assert.assertArrayEquals(new int[]{9, 1 * 3 * 3}, conv.getWeightGrad().shape());
+
+        Assert.assertEquals(NumJ.create(new double[]{
+                888, 952, 1016, 1080, 1144, 1208, 1272, 1336, 1400
+        }, 1, 9).toString(), conv.getBiasGrad().toString());
+
+        Assert.assertArrayEquals(new int[]{1, 9}, conv.getBiasGrad().shape());
+
+
+       /* conv.forward(NumJ.arange(4, 1, 4, 4));
 
         NdArray convOut = conv.backward(NumJ.arange(4, 9, 2, 2));
 
@@ -226,6 +283,6 @@ public class ConvolutionTest {
                 888, 952, 1016, 1080, 1144, 1208, 1272, 1336, 1400
         }, 1, 9).sub(conv.getBiasGrad()).elementwise(Math::abs).sum() < 1e-10);
 
-        Assert.assertArrayEquals(new int[]{1, 9}, conv.getBiasGrad().shape());
+        Assert.assertArrayEquals(new int[]{1, 9}, conv.getBiasGrad().shape());*/
     }
 }
