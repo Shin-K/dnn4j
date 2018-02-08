@@ -60,7 +60,7 @@ public class Pooling implements Layer {
 
         // ここから実装 最大値をとった部分(argmax)にdoutを代入する
         for (int i = 0; i < argmax.size(); i++){
-            dmax.put(new int[]{i,(int)argmax.get(i)},(int)dout.get(i));
+            dmax.put(new int[]{i,(int)argmax.get(i)},dout.get(i));
         }
         // ここまで実装
 
